@@ -12,7 +12,10 @@ class App extends Component {
       users: [],
       loading: false
     };
+    //bind this **Note that this line was not necessary as the arrow function takes care of it**
+    //this.handleSubmit = this.handleSubmit.bind(this);
   }
+
 
   getUsers(){
       this.setState({
@@ -22,40 +25,45 @@ class App extends Component {
     axios('https://api.randomuser.me/?nat=US&results=3')
       .then(
         response => this.setState({
-          users : response.data.results,
+          users : [...this.state.users, ...response.data.results],
           loading: false
         })
       );
 
   }
 
-  handleSubmit(event){
+  handleSubmit = (event) => {
     event.preventDefault();
     this.getUsers();
     console.log("do something");
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getUsers();
   }
 
   render() {
+    // Destructuring elements from this.state
+    const {loading, users} = this.state
+
     return (
       <div className="App">
-        {!this.state.loading ?
-          this.state.users.map(user  =>
-          <div>
-            <strong><p> {user.name.first} {user.name.last}</p></strong>
+        {!loading ? (
+          users.map(user  => (
+          // It seems the key property is unique and can be represented by a unique value from the data collected
+          // The key is inserted in the main div note that the main div is rewuired ti house other elements rendered
+          <div key={user.id.value}>
+            <strong><p style={{color:"#1e1e1e"}} > {user.name.first} {user.name.last}</p></strong>
             <div>{user.cell} </div>
 
             <div>{user.dob.age} </div>
             <div>{user.email} </div>
             <div>{user.location.city} </div>
             <form onSubmit={this.handleSubmit}>
-              <input type="submit" value='Load' />
+              <input type="submit" value="Load" />
             </form>
             <hr/>
-          </div>
+          </div>))
 
         ) : (
            <Loading message = "Please wait..." />
