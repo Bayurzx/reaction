@@ -48,6 +48,11 @@ class App extends Component {
 
     return (
       <div className="App">
+        <form onSubmit={this.handleSubmit}>
+          <input type="submit" value="Load" />
+        </form>
+        <hr />
+
         {!loading ? (
           users.map(user  => (
           // It seems the key property is unique and can be represented by a unique value from the data collected
@@ -59,9 +64,6 @@ class App extends Component {
             <div>{user.dob.age} </div>
             <div>{user.email} </div>
             <div>{user.location.city} </div>
-            <form onSubmit={this.handleSubmit}>
-              <input type="submit" value="Load" />
-            </form>
             <hr/>
           </div>))
 
