@@ -2,7 +2,7 @@
 // import './App.css';
 // import axios from 'axios';
 // import { Loading } from './Loading';
-import React, {Component, useState} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 // Note that useState is a hook that allow you to use State without class component
 const App = () => {
 
@@ -10,7 +10,14 @@ const App = () => {
 
   const increment = () => {
     setCount(count + 1);
+
   }
+
+  // useEffect as used for function in the place of componentDidUpdate of class component
+  useEffect(() => {
+    document.title = `Clicked ${count} times`
+  })
+
 
   return (
     <div>
