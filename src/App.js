@@ -2,52 +2,39 @@
 // import './App.css';
 // import axios from 'axios';
 // import { Loading } from './Loading';
-import React, {Component, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 // Note that useState is a hook that allow you to use State without class component
 const App = () => {
+  // Set state  **useState keeps the state of data like int, str, arr, obj etc**
+  const [news, setNews] = useState([]); //random naming convention was used
 
-  const [count=2, setCount] = useState(0);
+  const fetchNews = () => {
+    fetch('http://hn.algolia.com/api/v1/search?query=react')
+    .then(results => results.json())
+    .then(data => setNews(data.hits)) //hits is an object we aree retrieving from data
+    .catch(err => console.log(err))
+  };
 
-  const increment = () => {
-    setCount(count + 1);
-
-  }
-
-  // useEffect as used for function in the place of componentDidUpdate of class component
   useEffect(() => {
-    document.title = `Clicked ${count} times`
+    fetchNews();
   })
 
 
-  return (
+  return(
     <div>
-      <h2> Hello Counter App</h2>
-      <button onClick={increment}>I was clicked {count} times</button>
+      <h2>The News</h2>
+      <div>
+        { news.map((n, i) => (
+          <p key={i}> {n.title} </p>
+        ))}
+      </div>
     </div>
-  )
+  );
+
+
 
 }
 
-// class App extends Component {
-//
-//   state = {
-//      count : 0
-//   }
-//
-//   increment = () => {
-//     this.setState({
-//     count : this.state.count + 1
-//   })
-// }
-//
-//   render() {
-//     return (
-//       <div>
-//         <h2> Hello Counter App</h2>
-//         <button onClick={this.increment}>I was clicked {this.state.count} times</button>
-//       </div>
-//     )
-//   }
-// }
+
 
 export default App;
