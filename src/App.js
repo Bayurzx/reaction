@@ -4,6 +4,9 @@
 // import { Loading } from './Loading';
 import React, {Component} from 'react';
 
+
+// I am createing two Lifecycle method ComponentDidMount and ComponentDidUpdate
+// We will rewrite using Hook so checkout the Hook branch
 class App extends Component {
 
   state = {
@@ -15,6 +18,14 @@ class App extends Component {
     count : this.state.count + 1
   })
 }
+
+  componentDidMount = () => {
+    document.title = `Clicked ${this.state.count} times`
+  }
+
+  componentDidUpdate = () => {
+    document.title = `Clicked ${this.state.count} times`
+  }
 
   render() {
     return (
